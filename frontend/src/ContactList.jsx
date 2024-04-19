@@ -9,10 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 
-const ContactList = ({contacts}) => {
+const ContactList = ({ contacts, updateContact, updateCallback }) => {
+
+
     return (
         <div>
             <TableContainer component={Paper}>
@@ -32,8 +32,8 @@ const ContactList = ({contacts}) => {
                             <TableCell>{contact.lastName}</TableCell>
                             <TableCell>{contact.email}</TableCell>
                             <TableCell>
-                                <Button variant="outlined" startIcon={<RefreshIcon />}>Update</Button>
-                                <Button variant="outlined" color="error" size="small" startIcon={<DeleteIcon />}>DELETE</Button>
+                                <Button variant="outlined" onClick={() => updateContact(contact)} startIcon={<RefreshIcon />}>Update</Button>
+                                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
                             </TableCell>
                         </TableRow>
                     ))}

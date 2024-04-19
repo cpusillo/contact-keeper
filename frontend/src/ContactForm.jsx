@@ -2,13 +2,16 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
-const ContactForm = ({ existingCOntact = {}, updateCallback}) => {
+const ContactForm = ({ existingContact = {}, updateCallback}) => {
   // If there's an existing contact put that in, else leave an empty string
   const [firstName, setFirstName] = useState(existingContact.firstName || "");
   const [lastName, setLastName] = useState(existingContact.lastName || "");
   const [email, setEmail] = useState(existingContact.email || "");
+
+  const updating = Object.entries(existingContact).length !== 0
 
   const onSubmit = async (e) => {
     // Dont automatically refresh the page
@@ -19,9 +22,9 @@ const ContactForm = ({ existingCOntact = {}, updateCallback}) => {
       lastName,
       email,
     };
-    const url = "http://127.0.0.1:5000/create_contact";
+    const url = "http://127.0.0.1:5000/" + (updating ? `update_contact/${existingContact.id}` : "create_contact");
     const options = {
-      method: "POST",
+      method: updating ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
@@ -30,7 +33,7 @@ const ContactForm = ({ existingCOntact = {}, updateCallback}) => {
       const data = await response.json();
       alert(data.message);
     } else {
-      // successful
+      updateCallback()
     }
   };
 
@@ -68,10 +71,9 @@ const ContactForm = ({ existingCOntact = {}, updateCallback}) => {
           variant="outlined"
           color="success"
           type="submit"
-          size="large"
-          startIcon={<PersonAddIcon />}
+          size="small"
         >
-          Create
+          {updating ? <TurnedInIcon /> : <PersonAddIcon />}
         </Button>
       </Box>
     </>

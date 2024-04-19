@@ -8,10 +8,12 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
+  const [currentContact, setCurrentContact] = useState({})
 
   useEffect(() => {
     fetchContacts();
@@ -19,6 +21,7 @@ function App() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setCurrentContact({})
   };
 
   const openCreateModal = () => {
@@ -49,22 +52,33 @@ function App() {
     setContacts(data.contacts);
   };
 
+  const openEditModal = (contact) => {
+    if (isModalOpen) return
+    setCurrentContact(contact)
+    setIsModalOpen(true)
+  }
+
+const onUpdate = () => {
+  closeModal()
+  fetchContacts()
+}
+
   return (
     <>
       <h1>Contacts List</h1>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <div className="new-section">
-          <Button onClick={openCreateModal}>Create Contact</Button>
+          <Button onClick={openCreateModal} startIcon={<PersonAddIcon />}>Create Contact</Button>
         </div>
-        <ContactList contacts={contacts} />
+        <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate} />
         {isModalOpen && (
           <Modal open={isModalOpen} onClose={closeModal}>
             <Box sx={style}>
               <span className="close" onClick={closeModal}>
                 <CloseIcon />
               </span>
-              <ContactForm />
+              <ContactForm existingContact={currentContact} updateCallback={onUpdate}/>
             </Box>
           </Modal>
         )}
