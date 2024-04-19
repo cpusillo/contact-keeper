@@ -12,6 +12,22 @@ import Paper from '@mui/material/Paper';
 
 const ContactList = ({ contacts, updateContact, updateCallback }) => {
 
+    const onDelete = async (id) => {
+        try {
+            const options = {
+                method: "DELETE"
+            }
+            const response = await fetch(`http://127.0.0.1:5000/delete_contact/${id}`, options)
+            if (response.status == 200) {
+                updateCallback()
+            } else {
+                console.error("Could not delete user")
+            }
+        } catch (error){
+            alert(error)
+        }
+    } 
+
 
     return (
         <div>
@@ -33,7 +49,7 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
                             <TableCell>{contact.email}</TableCell>
                             <TableCell>
                                 <Button variant="outlined" onClick={() => updateContact(contact)} startIcon={<RefreshIcon />}>Update</Button>
-                                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                                <Button variant="outlined" onClick={() => onDelete(contact.id)} color="error" startIcon={<DeleteIcon />}>DELETE</Button>
                             </TableCell>
                         </TableRow>
                     ))}
