@@ -5,6 +5,7 @@
 __pycache__
 
 /instance
+mydatabase.db
 
 # dependencies
 /node_modules
