@@ -11,6 +11,7 @@ class Contact(db.Model):
     first_name = db.Column(db.String(80), unique=False, nullable=False)
     last_name = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(160), unique=True, nullable=False)
+    timestamp = db.Column(db.String(80), unique=False, nullable=False)
 
     def to_json(self):
         """
@@ -21,6 +22,7 @@ class Contact(db.Model):
             "id": self.id,
             "firstName": self.first_name,
             "lastName": self.last_name,
-            "email": self.email
+            "email": self.email,
+            "timestamp": self.timestamp
         }
 

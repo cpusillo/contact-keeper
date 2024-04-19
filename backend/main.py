@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from config import app, db
 from models import Contact
-
+import datetime
 
 @app.route("/contacts", methods=["GET"])
 def get_contacts():
@@ -16,11 +16,12 @@ def create_contact():
     first_name = request.json.get("firstName")
     last_name = request.json.get("lastName")
     email = request.json.get("email")
+    timestamp = datetime.datetime.now()
 
     if not first_name or not last_name or not email:
         return (jsonify({"message": "You must provide first name, last name, and email."}), 400)
     
-    new_contact = Contact(first_name=first_name, last_name=last_name, email=email)
+    new_contact = Contact(first_name=first_name, last_name=last_name, email=email, timestamp=timestamp)
 
     try:
         db.session.add(new_contact)

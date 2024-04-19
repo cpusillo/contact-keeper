@@ -1,5 +1,6 @@
 import React from "react";
 import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Table from '@mui/material/Table';
@@ -27,8 +28,7 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
             alert(error)
         }
     } 
-
-
+    
     return (
         <div>
             <TableContainer component={Paper}>
@@ -48,8 +48,10 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
                             <TableCell>{contact.lastName}</TableCell>
                             <TableCell>{contact.email}</TableCell>
                             <TableCell>
-                                <Button variant="outlined" onClick={() => updateContact(contact)} startIcon={<RefreshIcon />}>Update</Button>
-                                <Button variant="outlined" onClick={() => onDelete(contact.id)} color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                                <ButtonGroup variant="outlined" aria-label="Basic button group">
+                                <Button variant="outlined" onClick={() => updateContact(contact)}><RefreshIcon /></Button>
+                                <Button variant="outlined" onClick={() => onDelete(contact.id)} color="error" ><DeleteIcon /></Button>
+                                </ButtonGroup>
                             </TableCell>
                         </TableRow>
                     ))}

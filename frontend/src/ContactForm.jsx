@@ -67,6 +67,7 @@ const ContactForm = ({ existingContact = {}, updateCallback}) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <div>
         <Button
           variant="outlined"
           color="success"
@@ -75,6 +76,7 @@ const ContactForm = ({ existingContact = {}, updateCallback}) => {
         >
           {updating ? <TurnedInIcon /> : <PersonAddIcon />}
         </Button>
+        </div>
       </Box>
     </>
   );

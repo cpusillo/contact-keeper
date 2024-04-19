@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import Alert from '@mui/material/Alert';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,18 +29,18 @@ function App() {
     if (!isModalOpen) setIsModalOpen(true);
   };
 
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  });
+  // const darkTheme = createTheme({
+  //   palette: {
+  //     mode: "dark",
+  //   },
+  // });
 
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "80%",
+    width: 400,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -65,13 +66,13 @@ const onUpdate = () => {
 
   return (
     <>
-      <h1>Contacts List</h1>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
+      <h2>Contacts List</h2>
+      {console.log(contacts)}
         <div className="new-section">
           <Button onClick={openCreateModal} startIcon={<PersonAddIcon />}>Create Contact</Button>
         </div>
-        <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate} />
+        {contacts.length > 0 ? <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate} /> : <Alert severity="warning">Nothing here yet! Click "Create Contact" above to get started</Alert>}
+        
         {isModalOpen && (
           <Modal open={isModalOpen} onClose={closeModal}>
             <Box sx={style}>
@@ -82,7 +83,6 @@ const onUpdate = () => {
             </Box>
           </Modal>
         )}
-      </ThemeProvider>
     </>
   );
 }
