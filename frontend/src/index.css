@@ -54,6 +54,14 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+td {
+  padding: 15px;
+}
+
+.new-section{
+  padding-bottom: 10%;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -66,3 +74,5 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
