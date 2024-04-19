@@ -61,7 +61,9 @@ def delete_contact(user_id):
         db.session.delete(contact)
         db.session.commit()
     except Exception as e:
-        return (jsonify({"message": "User deleted"}), 200)
+        return (jsonify({"message": e}))
+    
+    return jsonify({"message": "User deleted!"}), 200
 
 
 # Run the Flask server
