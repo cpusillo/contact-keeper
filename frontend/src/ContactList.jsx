@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,6 +13,16 @@ import Paper from "@mui/material/Paper";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const ContactList = ({ contacts, updateContact, updateCallback }) => {
+  const [listItems, updateListItems] = useState(contacts);
+
+  function handleOnDragEnd(result) {
+    const items = Array.from(contacts);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    updateListItems(items);
+  }
+
   const onDelete = async (id) => {
     try {
       const options = {
@@ -44,45 +54,51 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
-          <DragDropContext>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="contacts">
               {(provided) => (
                 <TableBody {...provided.droppableProps} ref={provided.innerRef}>
-                  {contacts.map((contact) => (
-                    <Draggable
-                      key={contact.id}
-                      draggableId={String(contact.id)}
-                      index={contact.id}
-                    >
-                      {(provided) => (
-                        <TableRow {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                          <TableCell>{contact.firstName}</TableCell>
-                          <TableCell>{contact.lastName}</TableCell>
-                          <TableCell>{contact.email}</TableCell>
-                          <TableCell>
-                            <ButtonGroup
-                              variant="outlined"
-                              aria-label="Basic button group"
-                            >
-                              <Button
+                  {listItems.map(
+                    ({ id, firstName, lastName, email }, index) => (
+                      <Draggable
+                        key={id}
+                        draggableId={String(id)}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <TableRow
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <TableCell>{firstName}</TableCell>
+                            <TableCell>{lastName}</TableCell>
+                            <TableCell>{email}</TableCell>
+                            <TableCell>
+                              <ButtonGroup
                                 variant="outlined"
-                                onClick={() => updateContact(contact)}
+                                aria-label="Basic button group"
                               >
-                                <RefreshIcon />
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                onClick={() => onDelete(contact.id)}
-                                color="error"
-                              >
-                                <DeleteIcon />
-                              </Button>
-                            </ButtonGroup>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </Draggable>
-                  ))}
+                                <Button
+                                  variant="outlined"
+                                  onClick={() => updateContact(contact)}
+                                >
+                                  <RefreshIcon />
+                                </Button>
+                                <Button
+                                  variant="outlined"
+                                  onClick={() => onDelete(contact.id)}
+                                  color="error"
+                                >
+                                  <DeleteIcon />
+                                </Button>
+                              </ButtonGroup>
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </Draggable>
+                    )
+                  )}
                   {provided.placeholder}
                 </TableBody>
               )}

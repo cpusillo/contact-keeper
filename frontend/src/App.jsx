@@ -59,7 +59,7 @@ function App() {
   return (
     <>
       <h2>Contacts List</h2>
-      {console.log(contacts)}
+      {/* {console.log(contacts)} */}
       <div className="new-section">
         <Button onClick={openCreateModal} startIcon={<PersonAddIcon />}>
           Create Contact
