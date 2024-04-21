@@ -2,19 +2,17 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import ContactList from "./ContactList";
 import ContactForm from "./ContactForm";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import Alert from '@mui/material/Alert';
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Alert from "@mui/material/Alert";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contacts, setContacts] = useState([]);
-  const [currentContact, setCurrentContact] = useState({})
+  const [currentContact, setCurrentContact] = useState({});
 
   useEffect(() => {
     fetchContacts();
@@ -22,18 +20,12 @@ function App() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setCurrentContact({})
+    setCurrentContact({});
   };
 
   const openCreateModal = () => {
     if (!isModalOpen) setIsModalOpen(true);
   };
-
-  // const darkTheme = createTheme({
-  //   palette: {
-  //     mode: "dark",
-  //   },
-  // });
 
   const style = {
     position: "absolute",
@@ -54,35 +46,50 @@ function App() {
   };
 
   const openEditModal = (contact) => {
-    if (isModalOpen) return
-    setCurrentContact(contact)
-    setIsModalOpen(true)
-  }
+    if (isModalOpen) return;
+    setCurrentContact(contact);
+    setIsModalOpen(true);
+  };
 
-const onUpdate = () => {
-  closeModal()
-  fetchContacts()
-}
+  const onUpdate = () => {
+    closeModal();
+    fetchContacts();
+  };
 
   return (
     <>
       <h2>Contacts List</h2>
       {console.log(contacts)}
-        <div className="new-section">
-          <Button onClick={openCreateModal} startIcon={<PersonAddIcon />}>Create Contact</Button>
-        </div>
-        {contacts.length > 0 ? <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate} /> : <Alert severity="warning">Nothing here yet! Click "Create Contact" above to get started</Alert>}
-        
-        {isModalOpen && (
-          <Modal open={isModalOpen} onClose={closeModal}>
-            <Box sx={style}>
-              <span className="close" onClick={closeModal}>
-                <CloseIcon />
-              </span>
-              <ContactForm existingContact={currentContact} updateCallback={onUpdate}/>
-            </Box>
-          </Modal>
-        )}
+      <div className="new-section">
+        <Button onClick={openCreateModal} startIcon={<PersonAddIcon />}>
+          Create Contact
+        </Button>
+      </div>
+      {contacts.length > 0 ? (
+        <ContactList
+          contacts={contacts}
+          updateContact={openEditModal}
+          updateCallback={onUpdate}
+        />
+      ) : (
+        <Alert severity="warning">
+          Nothing here yet! Click &lsquo;Create&lsquo; above to get started
+        </Alert>
+      )}
+
+      {isModalOpen && (
+        <Modal open={isModalOpen} onClose={closeModal}>
+          <Box sx={style}>
+            <span className="close" onClick={closeModal}>
+              <CloseIcon />
+            </span>
+            <ContactForm
+              existingContact={currentContact}
+              updateCallback={onUpdate}
+            />
+          </Box>
+        </Modal>
+      )}
     </>
   );
 }
