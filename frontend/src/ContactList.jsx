@@ -13,9 +13,12 @@ import Paper from "@mui/material/Paper";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const ContactList = ({ contacts, updateContact, updateCallback }) => {
+
+    // Push our props into state so that we can reorder them in the UI
   const [listItems, updateListItems] = useState(contacts);
 
   function handleOnDragEnd(result) {
+    // When an item in our list is reordered, update the index
     const items = Array.from(contacts);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
